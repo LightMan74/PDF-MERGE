@@ -42,7 +42,7 @@ Module Module1
                     "-folders " & Chr(34) & "chemin_Dossier" & Chr(34) & " /!\ sans de '\' a la fin"
             End If
         Next i
-        If
+
         'merge({"./FIW-00005.pdf", "./CVG.pdf"})
     End Sub
 

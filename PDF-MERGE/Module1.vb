@@ -5,7 +5,23 @@ Imports PdfSharp.Pdf.IO
 Imports System.IO
 Module Module1
     Public Sub Main()
-        Dim arguments As String() = Environment.GetCommandLineArgs()
+
+        Dim argument As String
+        For i = 1 To Environment.GetCommandLineArgs.GetUpperBound(0)
+            argument += Chr(34) & Environment.GetCommandLineArgs(i) & Chr(34) & " "
+        Next
+
+        If Not File.Exists(".\PdfSharp.dll") Then
+            pdfsharpdll()
+            cmd(argument)
+            Exit Sub
+        End If
+        If Not File.Exists(".\PdfSharp.Charting.dll") Then
+            pdfsharpchartingdll()
+            cmd(argument)
+            Exit Sub
+        End If
+
         For i = 1 To Environment.GetCommandLineArgs.GetUpperBound(0)
             Dim argus As String = Environment.GetCommandLineArgs(i)
             Dim file(2) As String
@@ -26,7 +42,7 @@ Module Module1
                     "-folders " & Chr(34) & "chemin_Dossier" & Chr(34) & " /!\ sans de '\' a la fin"
             End If
         Next i
-
+        If
         'merge({"./FIW-00005.pdf", "./CVG.pdf"})
     End Sub
 
@@ -86,5 +102,36 @@ Module Module1
     End Sub
 
 
+    Public Sub pdfsharpdll()
+        Dim FileName As String = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "PdfSharp.dll")
+        Dim BytesToWrite() As Byte = My.Resources.PdfSharp
+        Dim FileStream As New System.IO.FileStream(FileName, System.IO.FileMode.OpenOrCreate)
+        Dim BinaryWriter As New System.IO.BinaryWriter(FileStream)
+        BinaryWriter.Write(BytesToWrite)
+        BinaryWriter.Close()
+        FileStream.Close()
+    End Sub
+
+    Public Sub pdfsharpchartingdll()
+        Dim FileName As String = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "PdfSharp.Charting.dll")
+        Dim BytesToWrite() As Byte = My.Resources.PdfSharp_Charting
+        Dim FileStream As New System.IO.FileStream(FileName, System.IO.FileMode.OpenOrCreate)
+        Dim BinaryWriter As New System.IO.BinaryWriter(FileStream)
+        BinaryWriter.Write(BytesToWrite)
+        BinaryWriter.Close()
+        FileStream.Close()
+    End Sub
+
+
+    Public Sub cmd(parametre As String) 'cmd(command As String, arguments As String, permanent As Boolean)
+        Dim p As Process = New Process()
+        Dim pi As ProcessStartInfo = New ProcessStartInfo()
+        'pi.Arguments = " " + If(permanent = True, "/K", "/C") + " " + command + " " + arguments
+        pi.Arguments = parametre
+        pi.FileName = "PDF-MERGE.exe"
+        p.StartInfo = pi
+        p.Start()
+        p.WaitForExit()
+    End Sub
 
 End Module

@@ -48,12 +48,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IronPdf, Version=2020.12.2.0, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPdf.2020.12.2\lib\net45\IronPdf.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPdf.Assets.Rendering.Windows, Version=21.0.0.0, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPdf.Assets.Rendering.Windows.21.0.0\lib\net40\IronPdf.Assets.Rendering.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
     </Reference>
@@ -85,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Module1.vb" />
-    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -124,7 +117,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\PdfSharp.dll" />
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PdfSharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PdfSharp.Charting.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -69,5 +69,15 @@ Namespace My.Resources
                 Return CType(obj,Byte())
             End Get
         End Property
+        
+        '''<summary>
+        '''  Recherche une ressource localisée de type System.Byte[].
+        '''</summary>
+        Friend ReadOnly Property PdfSharp_Charting() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("PdfSharp_Charting", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
     End Module
 End Namespace

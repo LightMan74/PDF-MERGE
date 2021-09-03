@@ -40,6 +40,7 @@ Module Module1
                     "-files " & Chr(34) & "chemin_Fichier1_Nom_de_sortie" & Chr(34) & " " & Chr(34) & "chemin_Fichier2" & Chr(34) & vbLf & vbLf &
                      "Fusionné un dossier avec les sous dossiers, le nom de sortie utilisera le nom du dossier" & vbLf &
                     "-folders " & Chr(34) & "chemin_Dossier" & Chr(34) & " /!\ sans de '\' a la fin"
+                MsgBox(m, MsgBoxStyle.SystemModal)
             End If
         Next i
 

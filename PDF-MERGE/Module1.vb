@@ -77,13 +77,15 @@ Module Module1
         namesave = StrReverse(namesave)
         namesave = namesave.Split("\")(0)
         namesave = StrReverse(namesave)
-        namesave = files & "\" & namesave & "-compiltation.pdf"
+        namesave = files & "\" & namesave & "-COMPILATION.pdf"
         Dim outputDocument As New PdfDocument
 
         Dim di As DirectoryInfo = New DirectoryInfo(files)
 
-        For Each file In di.GetFiles("*", SearchOption.AllDirectories)
-
+        For Each file In di.GetFiles("*.pdf", SearchOption.AllDirectories)
+            If file.Name.Contains("-COMPILATION.pdf") Then
+                Continue For
+            End If
             Dim inputDocument As New PdfDocument
             inputDocument = PdfReader.Open(file.FullName, PdfDocumentOpenMode.Import)
             Dim counts As Integer = inputDocument.PageCount - 1

@@ -4,6 +4,7 @@ Imports PdfSharp.Pdf
 Imports PdfSharp.Pdf.IO
 Imports System.IO
 Module Module1
+    Public errorlogs As String
     Public Sub Main()
 
         Dim argument As String
@@ -43,7 +44,12 @@ Module Module1
                 MsgBox(m, MsgBoxStyle.SystemModal)
             End If
         Next i
-
+        If Not errorlogs = "" Then
+            Console.WriteLine()
+            Console.WriteLine(errorlogs)
+            Console.WriteLine("EN ATTENTE DE CONFIRMATION DE L'ERREUR --> APPUYER SUR UNE TOUCHE")
+            Console.ReadKey()
+        End If
         'merge({"./FIW-00005.pdf", "./CVG.pdf"})
     End Sub
 
@@ -79,6 +85,7 @@ Module Module1
         namesave = StrReverse(namesave)
         namesave = files & "\" & namesave & "-COMPILATION.pdf"
         Dim outputDocument As New PdfDocument
+        Dim echec As Boolean = False
 
         Dim di As DirectoryInfo = New DirectoryInfo(files)
 
@@ -86,18 +93,36 @@ Module Module1
             If file.Name.Contains("-COMPILATION.pdf") Then
                 Continue For
             End If
-            Dim inputDocument As New PdfDocument
-            inputDocument = PdfReader.Open(file.FullName, PdfDocumentOpenMode.Import)
-            Dim counts As Integer = inputDocument.PageCount - 1
+            Try
+                Dim inputDocument As New PdfDocument
+                inputDocument = PdfReader.Open(file.FullName, PdfDocumentOpenMode.Import)
+                Dim counts As Integer = inputDocument.PageCount - 1
 
-            For i = 0 To counts
-                Dim page As PdfPage
-                page = inputDocument.Pages(i)
-                outputDocument.AddPage(page)
-            Next i
+                For i = 0 To counts
+                    Dim page As PdfPage
+                    page = inputDocument.Pages(i)
+                    outputDocument.AddPage(page)
+                Next i
+            Catch
+                'Console.WriteLine("/!\ ERREUR SUR LE FICHIER /!\ " & file.Name)
+                errorlogs += "ERREUR --> " & file.Name & vbLf
+                echec = True
+                'Exit For
+            End Try
+        Next
 
-        Next 'files
+        If echec Then
+            Do Until outputDocument.Pages.Count = 0
+                outputDocument.Pages.RemoveAt(0)
+            Loop
+        End If
+
+        If outputDocument.PageCount = 0 Then
+            outputDocument.AddPage()
+        End If
+
         outputDocument.Save(namesave)
+
 
 
         'Process.Start(files(0))
